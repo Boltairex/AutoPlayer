@@ -17,19 +17,19 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
+AutoPlayer/AutoPlayer/[Dd]ebug/
+AutoPlayer/[Dd]ebugPublic/
+AutoPlayer/[Rr]elease/
+AutoPlayer/[Rr]eleases/
+AutoPlayer/x64/
+AutoPlayer/x86/
+AutoPlayer/[Aa][Rr][Mm]/
+AutoPlayer/[Aa][Rr][Mm]64/
+AutoPlayer/bld/
+AutoPlayer/[Bb]in/
+AutoPlayer/[Oo]bj/
+AutoPlayer/[Ll]og/
+AutoPlayer/[Ll]ogs/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
