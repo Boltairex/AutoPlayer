@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -23,6 +24,21 @@ namespace AutoPlayer
         public MainWindow()
         {
             InitializeComponent();
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Configure open file dialog box
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.FileName = ""; 
+            dialog.DefaultExt = ".XML"; 
+            dialog.Filter = "(.XML)|*.XML";
+
+            // Show open file dialog box
+            bool? result = dialog.ShowDialog();
+
+            if (result == true){
+                string filename = dialog.FileName;
+            }
         }
     }
 }
