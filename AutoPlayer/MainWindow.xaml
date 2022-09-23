@@ -7,18 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Open File" Click="Button_Click" HorizontalAlignment="Center" Height="31" VerticalAlignment="Top" Width="156" Margin="20"/>
-        <StackPanel VerticalAlignment="Top" Margin="0,100,24,100" HorizontalAlignment="Right" Width="218">
-            <Slider x:Name="Slider" Maximum="100" TickPlacement="BottomRight" TickFrequency="10" Background="LightPink"/>
-            <TextBlock Text="{Binding ElementName=Slider, Path=Value}" FontSize="15"></TextBlock>
-        </StackPanel>
-        <Border Margin="0,-10,0,10" >
-            <TextBlock HorizontalAlignment="Left" Height="17" Margin="646,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49"><Run Language="pl-pl" Text="Volume"/></TextBlock>
-        </Border>
-        <TextBlock Text="File Name: "></TextBlock>
-        <ListBox Margin="39,53,611,151"  Width="150" Height="230">
-            <ListBoxItem>Music 1</ListBoxItem>
-            <ListBoxItem>Music 2</ListBoxItem>
-        </ListBox>
+
     </Grid>
 </Window>
