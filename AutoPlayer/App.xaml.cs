@@ -15,9 +15,9 @@ namespace AutoPlayer
     {
         static ConsoleWindow window;
 
-        App()
+        /*App()
         {
-            var data = XmlDataMusicReader.ReadDataFromFile(@"C:\Users\Boltu\Desktop\music.xml");
+            /*var data = XmlDataMusicReader.ReadDataFromFile(@"C:\Users\Boltu\Desktop\music.xml");
             foreach(var d in data)
             {
                 Print(d.Start.ToString());
@@ -31,7 +31,7 @@ namespace AutoPlayer
                 Print("Spam " + x);
             }
         }
-
+        */
         public static void Print(string val)
         {
             if (window == null)
@@ -42,5 +42,6 @@ namespace AutoPlayer
 
             window.Print(val);
         }
-    }
+    }      
+    
 }
