@@ -257,13 +257,13 @@ namespace AutoPlayer
 
         public Volume SetVolume(float volume)
         {
-            this.volume = (int)(Math.Min(0, Math.Max(1, volume)) * 100);
+            this.volume = (int)(Math.Min(100, Math.Max(0, volume)) * 100);
             return this;
         }
 
         public Volume SetVolume(int volume)
         {
-            this.volume = Math.Min(0, Math.Max(100, volume));
+            this.volume = Math.Min(100, Math.Max(0, volume));
             return this;
         }
 
