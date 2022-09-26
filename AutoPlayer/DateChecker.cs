@@ -15,7 +15,7 @@ namespace AutoPlayer
         public event Action<MusicData> DataAvailable;
 
         public bool IsAvailable => selected >= 0;
-        public MusicData? GetCurrentData => selected < 0 ? data[selected] : null;
+        public MusicData? GetCurrentData => selected >= 0 ? data[selected] : null;
 
         CancellationTokenSource source;
         MusicData[] data;
