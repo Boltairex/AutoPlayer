@@ -31,7 +31,7 @@ namespace AutoPlayer
         public void Print(string value)
         {
             block.TextWrapping = TextWrapping.Wrap;
-            block.Text = block.Text + value + "\n";
+            block.Text = block.Text + value + "\n" ;
         }
     }
 }

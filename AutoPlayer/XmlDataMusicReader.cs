@@ -69,6 +69,7 @@ namespace AutoPlayer
                         var playlist = LoadPlayList(ref r);
 
                         var files = Directory.EnumerateFiles(playlist.Path + '\\');
+
                         foreach(var file in files)
                             builder.AddTrack(file, playlist.Volume);
                         break;
@@ -171,6 +172,11 @@ namespace AutoPlayer
         public MusicDataBuilder AddTrack(string fullPath, string? volume)
         {
             TrackData data = new TrackData(fullPath, volume != null ? new Volume().FromString(volume) : new Volume().SetVolume(100));
+
+            foreach (var d in MusicData)
+                if (data.Name == d.Name)
+                    return this;
+            
             MusicData.Add(data);
             return this;
         }
@@ -184,10 +190,10 @@ namespace AutoPlayer
     public class MusicData
     {
         public readonly TrackData[] Tracks;
-        public readonly int TracksCount;
         public readonly TimeSpan Start;
         public readonly TimeSpan Length;
         public readonly TimeSpan End;
+        public readonly int TracksCount;
         public bool Shuffle;
 
         public DateTime GetTodaysStart()
@@ -203,6 +209,45 @@ namespace AutoPlayer
         public double TimeLeftInSeconds()
         {
             return GetTodaysEnd().Subtract(DateTime.Now).TotalSeconds;
+        }
+
+        /// <summary>
+        /// Merges tracks with distinct. Saves properties of method caller object.
+        /// </summary>
+        /// <param name="toMerge"></param>
+        /// <returns></returns>
+        public MusicData MergeTracks(MusicData toMerge)
+        {
+            List<TrackData> notCopies = new List<TrackData>();
+            
+            foreach(var track in toMerge.Tracks)
+            {
+                bool canMerge = true;
+                foreach(var check in Tracks)
+                {
+                    if(track.Name == check.Name)
+                    {
+                        canMerge = false;
+                        break;
+                    }
+                }
+
+                if (canMerge)
+                    notCopies.Add(track);
+            }
+
+            notCopies.AddRange(this.Tracks);
+            return new MusicData(notCopies, Shuffle, Start, Length, End);
+        }
+
+        internal MusicData(List<TrackData> data, bool shuffle, TimeSpan start, TimeSpan length, TimeSpan end)
+        {
+            this.Tracks = data.ToArray();
+            this.TracksCount = Tracks.Length;
+            this.Shuffle = shuffle;
+            this.Start = start;
+            this.Length = length;
+            this.End = end;
         }
 
         public MusicData(MusicDataBuilder builder)
@@ -221,26 +266,36 @@ namespace AutoPlayer
     /// </summary>
     public class TrackData
     {
-        public string Fullpath;
-        public string Name;
-        public Volume Volume;
-        public FileFormat Format;
+        string fullpath;
+        string name;
+        Volume volume;
+        FileFormat format;
+
+        public string Name { get => this.name; }
+
+        public int? Volume { get => volume?.GetVolumeInt(); }
+
+        public string Extension { get => format.ToString(); }
+
+        public Volume GetVolume() => volume;
+
+        public FileFormat GetFormat() => format;
 
         public TrackData(string path, Volume volume)
         {
-            Fullpath = path;
-            Name = Path.GetFileName(path);
-            Volume = volume;
-            Format = Name.Split('.').Last().FormatFromString();
+            fullpath = path;
+            name = Path.GetFileName(path);
+            this.volume = volume;
+            format = name.Split('.').Last().FormatFromString();
         }
 
         public MemoryStream GetStreamFromFile()
         {
-            if (!File.Exists(Fullpath))
-                throw new FileNotFoundException("Brak pliku w lokalizacji " + Fullpath);
+            if (!File.Exists(fullpath))
+                throw new FileNotFoundException("Brak pliku w lokalizacji " + fullpath);
 
             MemoryStream stream = new MemoryStream();
-            var bytes = File.ReadAllBytes(Fullpath);
+            var bytes = File.ReadAllBytes(fullpath);
             stream.Write(bytes);
 
             return stream;
