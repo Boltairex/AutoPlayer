@@ -334,6 +334,26 @@ namespace AutoPlayer
 
             return this;
         }
+
+        public static explicit operator Volume(int i)
+        {
+            return new Volume().SetVolume(i);
+        }
+
+        public static explicit operator Volume(float f)
+        {
+            return new Volume().SetVolume(f);
+        }
+
+        public static implicit operator int(Volume volume)
+        {
+            return volume.GetVolumeInt();
+        }
+
+        public static implicit operator float(Volume volume)
+        {
+            return volume.GetVolumeFloat();
+        }
     }
 
     public enum FileFormat
