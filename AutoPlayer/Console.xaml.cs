@@ -19,19 +19,27 @@ namespace AutoPlayer
     /// </summary>
     public partial class ConsoleWindow : Window
     {
-        TextBlock block;
+        int counter = 0;
+        RichTextBox block;
 
         public ConsoleWindow()
         {
             InitializeComponent();
 
-            block = this.FindName("Out") as TextBlock;
+            block = this.FindName("Out") as RichTextBox;
+            block.Document.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
+            block.Document.IsOptimalParagraphEnabled = true;
         }
 
-        public void Print(string value)
+        public void Print(object value)
         {
-            block.TextWrapping = TextWrapping.Wrap;
-            block.Text = block.Text + value + "\n" ;
+            block.AppendText(value.ToString());
+        }
+
+        public void Println(object value)
+        {
+            block.AppendText(counter + ": " + value.ToString() + "\n");
+            counter++;
         }
     }
 }

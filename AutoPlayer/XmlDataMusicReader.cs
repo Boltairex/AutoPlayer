@@ -10,6 +10,7 @@ namespace AutoPlayer
 {
     static class XmlDataMusicReader
     {
+        private const string conf = "./configuration.xml";
         static string filename;
 
         public static MusicData[] ReadDataFromFile(string path)
@@ -22,7 +23,27 @@ namespace AutoPlayer
             throw new Exception("Something went wrong.");
         }
 
-        public static MusicData[] XmlReadData(Stream stream)
+        public static bool CreateBaseConfigurationFrom(string path)
+        {
+            try
+            {
+                if (!File.Exists(path))
+                    return false;
+
+                if (File.Exists(conf))
+                    File.Delete(conf);
+
+                File.Move(path, conf);
+                return true;
+            }
+            catch(Exception e)
+            {
+                App.WriteLine(e);
+            }
+            return false;
+        }
+
+        static MusicData[] XmlReadData(Stream stream)
         {
             List<MusicData> musics = new List<MusicData>();
 
@@ -44,7 +65,7 @@ namespace AutoPlayer
             return musics.ToArray();
         }
 
-        public static MusicDataBuilder LoadTime(ref XmlReader r)
+        static MusicDataBuilder LoadTime(ref XmlReader r)
         {
             MusicDataBuilder builder = new MusicDataBuilder();
             int depth = r.Depth;
@@ -79,7 +100,7 @@ namespace AutoPlayer
             return builder;
         }
 
-        public static PlaylistNode LoadPlayList(ref XmlReader r) 
+        static PlaylistNode LoadPlayList(ref XmlReader r) 
         {
             if (!r.TryGetAttribute("path", out var path))
                 throw new ArgumentException("No path for playlist!");

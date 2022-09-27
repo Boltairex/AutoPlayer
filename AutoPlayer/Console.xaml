@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="Console" Height="450" Width="800" Foreground="White" Background="#E5000000">
     <Grid>
-        <TextBlock x:Name="Out"></TextBlock>
+        <RichTextBox
+            Name="Out"
+            Height="auto"
+            Width="auto" 
+            IsDocumentEnabled="True"
+            VerticalScrollBarVisibility="Auto"
+            SpellCheck.IsEnabled="False"
+            FontSize="12" 
+            IsUndoEnabled="False"
+            IsReadOnly="True"
+            Margin="5,0,0,0" BorderThickness="0,0,0,0" AllowDrop="False"/>
     </Grid>
 </Window>

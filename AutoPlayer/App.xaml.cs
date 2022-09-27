@@ -13,35 +13,52 @@ namespace AutoPlayer
     /// </summary>
     public partial class App : Application
     {
+        static StartupService service;
         static ConsoleWindow window;
 
-        /*App()
+        App()
         {
-            /*var data = XmlDataMusicReader.ReadDataFromFile(@"C:\Users\Boltu\Desktop\music.xml");
-            foreach(var d in data)
-            {
-                Print(d.Start.ToString());
-                Print(d.Length.ToString());
-                Print(d.End.ToString());
-                Print(d.Tracks.Length.ToString());
-            }
-
-            for(int x = 0; x < 100; x++)
-            {
-                Print("Spam " + x);
-            }
+            service = StartupService.SetStartupService();
+            TestWindow window = new TestWindow();
+            window.Show();
         }
-        */
-        public static void Print(string val)
+
+        static void SetConsoleWindow()
         {
             if (window == null)
                 window = new ConsoleWindow();
-
             if (!window.IsActive)
                 window.Show();
+        }
 
+        /// <summary>
+        /// Use <see cref="WriteLine(object)"/> instead.
+        /// </summary>
+        /// <param name="val"></param>
+        [Obsolete]
+        public static void Print(object val)
+        {
+            if (val == null)
+                return;
+
+            SetConsoleWindow();
             window.Print(val);
         }
-    }      
-    
+
+        public static void WriteLine(object val)
+        {
+            if (val == null)
+                return;
+            SetConsoleWindow();
+            window.Println(val);
+        } 
+
+        public static void Write(object val)
+        {
+            if (val == null)
+                return;
+            SetConsoleWindow();
+            window.Print(val);
+        }
+    }
 }

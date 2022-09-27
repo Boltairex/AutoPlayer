@@ -1,0 +1,113 @@
+﻿<Window x:Class="AutoPlayer.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoPlayer"
+        xmlns:pdp="clr-namespace:AutoPlayer.Templates"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="TestWindow" 
+        Height="420" Width="750"
+        MaxHeight="650" MaxWidth="1100"
+        MinHeight="300" MinWidth="500"
+        ResizeMode="CanResize"
+        WindowStyle="ThreeDBorderWindow"
+        d:DataContext="{d:DesignInstance local:TestWindow}">
+
+    <Grid Background="#042439">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Rectangle Grid.Row="0" 
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="4">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="#FF071721"></SolidColorBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Grid.Row="1" 
+                   Height="auto" 
+                   VerticalAlignment="Center">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="Transparent"></SolidColorBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Button Content="Konfiguracja"
+                Margin="12,10"
+                Style="{DynamicResource MaterialDesignOutlinedDarkButton}" 
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                FontSize="14" Foreground="White" BorderBrush="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Click="LoadConfiguration"/>
+
+        <pdp:PlayerDockPanel Grid.Column="0" 
+                             Grid.Row="2" 
+                             Grid.ColumnSpan="4" 
+                             Foreground="White"
+                             PreviousButton="Previous"
+                             NextButton="Next"
+                             StopButton="Stop"
+                             PlayButton="Play"
+                             TimelineMax="{Binding Path=Value, Mode=OneWay}"
+                             TimelineCurrent="{Binding Path=Current, Mode=TwoWay}"
+                             />
+
+        <StackPanel Grid.Row="1" 
+                    Grid.Column="0"
+                    Width="auto"
+                    Height="auto"
+                    Margin="5"
+                    Orientation="Horizontal">
+            <StackPanel Orientation="Vertical">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">
+                    <materialDesign:PackIcon Kind="VolumeHigh" Width="20" Height="20" />
+                </TextBlock>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        Minimum="0"
+                        Maximum="100"
+                        Value="{Binding Volume, Mode=OneWay}" 
+                        Margin="10"
+                        Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="200" VerticalAlignment="Stretch" ValueChanged="ChangedValue"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Border CornerRadius="0,0,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF006590" Offset="0"/>
+                    <GradientStop Color="#FF0C4A66" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="1" 
+                          Grid.Column="1"
+                          ItemsSource="{Binding Items1}"
+                          SelectionUnit="Cell"
+                          SelectionMode="Extended" 
+                          Background="#00000000" 
+                          Foreground="#DDFFFFFF" 
+                          FontSize="10" Margin="0,0,5,5" ClipToBounds="True" Panel.ZIndex="2"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
