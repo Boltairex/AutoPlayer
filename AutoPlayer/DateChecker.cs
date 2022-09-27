@@ -64,7 +64,6 @@ namespace AutoPlayer
                     case -1:
                         for (int x = 0; x < data.Length; x++)
                         {
-                            App.WriteLine(DateTime.Now + " : " + data[x].GetTodaysStart());
                             if (DateTime.Now < data[x].GetTodaysEnd() && DateTime.Now >= data[x].GetTodaysStart())
                             {
                                 lock (lockThread)
