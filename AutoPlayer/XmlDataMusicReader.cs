@@ -280,7 +280,7 @@ namespace AutoPlayer
         public Volume GetVolume() => volume;
 
         public FileFormat GetFormat() => format;
-
+        public string GetFullPath() => fullpath;
         public TrackData(string path, Volume volume)
         {
             fullpath = path;
