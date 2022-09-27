@@ -25,21 +25,15 @@ namespace AutoPlayer.Templates
         public event EventHandler StopButton;
         public event EventHandler NextButton;
 
-        TextBox currentTime;
-        TextBox maxTime;
-
         public PlayerDockPanel()
         {
             InitializeComponent();
         }
+
         public float TimelineCurrent
         {
             get { return (float)GetValue(TimelineCurrentProperty); }
-            set 
-            {
-                App.Print(value.ToString());
-                SetValue(TimelineCurrentProperty, value);
-            }
+            set { SetValue(TimelineCurrentProperty, value); }
         }
 
         public static readonly DependencyProperty TimelineCurrentProperty =
@@ -48,11 +42,7 @@ namespace AutoPlayer.Templates
         public float TimelineMax
         {
             get { return (float)GetValue(TimelineMaxProperty); }
-            set 
-            {
-                App.Print(value.ToString());
-                SetValue(TimelineMaxProperty, value);
-            }
+            set { SetValue(TimelineMaxProperty, value); }
         }
  
         public static readonly DependencyProperty TimelineMaxProperty =

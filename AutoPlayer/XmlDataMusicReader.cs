@@ -33,7 +33,7 @@ namespace AutoPlayer
                 if (File.Exists(conf))
                     File.Delete(conf);
 
-                File.Move(path, conf);
+                File.Copy(path, conf);
                 return true;
             }
             catch(Exception e)
@@ -259,6 +259,16 @@ namespace AutoPlayer
 
             notCopies.AddRange(this.Tracks);
             return new MusicData(notCopies, Shuffle, Start, Length, End);
+        }
+
+        internal MusicData(TrackData[] data, bool shuffle, TimeSpan start, TimeSpan length, TimeSpan end)
+        {
+            this.Tracks = data;
+            this.TracksCount = Tracks.Length;
+            this.Shuffle = shuffle;
+            this.Start = start;
+            this.Length = length;
+            this.End = end;
         }
 
         internal MusicData(List<TrackData> data, bool shuffle, TimeSpan start, TimeSpan length, TimeSpan end)

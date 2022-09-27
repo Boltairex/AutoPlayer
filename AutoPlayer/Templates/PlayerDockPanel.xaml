@@ -63,9 +63,9 @@
                         HorizontalAlignment="Center">
                 <Slider Name="Slider"
                         Margin="15,0,15,0"
-                        Value="{Binding Path=TimelineCurrent, ElementName=pdp, BindingGroupName=panel}"
+                        Value="{Binding TimelineCurrent, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Minimum="0"
-                        Maximum="{Binding Path=TimelineMax, ElementName=pdp, BindingGroupName=panel}"
+                        Maximum="{Binding TimelineMax, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{DynamicResource MaterialDesignDiscreteSlider}"
                         TickFrequency="1"
                         TickPlacement="None" 
@@ -77,8 +77,7 @@
                         SnapsToDevicePixels="True" 
                         AutoToolTipPlacement="None" 
                         HorizontalAlignment="Center" 
-                        VerticalAlignment="Center" 
-                        IsEnabled="False"/>
+                        VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
     </DockPanel>

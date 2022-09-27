@@ -29,7 +29,7 @@ namespace AutoPlayer
 
         public TestWindow()
         {
-            Token = new CancellationTokenSource();
+/*            Token = new CancellationTokenSource();
 
             var data = XmlDataMusicReader.ReadDataFromFile(@"C:\Users\Boltu\Desktop\music.xml");
             XmlDataMusicReader.CreateBaseConfigurationFrom(@"C:\Users\Boltu\Desktop\music.xml");
@@ -44,21 +44,9 @@ namespace AutoPlayer
                 Items1.Add(track);
 
             var checker = DateChecker.SetDateChecker(data);
-            DateChecker.DataExpired += Checker_DataExpired;
-            DateChecker.DataAvailable += Checker_DataAvailable;
-
+*/
             DataContext = this;
             InitializeComponent();
-        }
-
-        private void Checker_DataAvailable(MusicData obj)
-        {
-            App.Print("Mamy muzykę " + obj.Length.ToString());
-        }
-
-        private void Checker_DataExpired()
-        {
-            App.Print("Wyłączyli muzykę.");
         }
 
         public int Volume
@@ -91,7 +79,7 @@ namespace AutoPlayer
 
         public void Play(object sender, EventArgs e)
         {
-            App.Print("Play");
+
         }
 
         /*
@@ -110,41 +98,32 @@ namespace AutoPlayer
 
         public void Stop(object sender, EventArgs e)
         {
-            App.Print("Stop");
-            if(IsRunning && !Token.IsCancellationRequested)
-            {
-                Token.Cancel();
-            }
+
         }
 
         public void Previous(object sender, EventArgs e)
         {
-            App.Print("Previous");
+
         }
 
         public void Next(object sender, EventArgs e)
         {
-            App.Print("Next");
+
         }
 
         private void LoadConfiguration(object sender, RoutedEventArgs e)
         {
-            App.Print("Ładuję...");
-            var data = XmlDataMusicReader.ReadDataFromFile(@"C:\Users\Boltu\Desktop\music.xml");
-            var checker = DateChecker.SetDateChecker(data);
-            DateChecker.DataExpired += Checker_DataExpired2;
-            DateChecker.DataAvailable += Checker_DataAvailable2;
-            App.Print("Załadowano.");
+
         }
 
         private void Checker_DataAvailable2(MusicData obj)
         {
-            App.Print("Powinien dać to samo: " + obj.Length.ToString());
+
         }
 
         private void Checker_DataExpired2()
         {
-            App.Print("Powinien się skończyć również :woozy:");
+
         }
 
         private void ChangedValue(object sender, RoutedPropertyChangedEventArgs<double> e)

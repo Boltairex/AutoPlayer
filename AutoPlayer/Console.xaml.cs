@@ -19,7 +19,7 @@ namespace AutoPlayer
     /// </summary>
     public partial class ConsoleWindow : Window
     {
-        int counter = 0;
+        long counter = 0;
         RichTextBox block;
 
         public ConsoleWindow()
@@ -40,6 +40,7 @@ namespace AutoPlayer
         {
             block.AppendText(counter + ": " + value.ToString() + "\n");
             counter++;
+            block.PageDown();
         }
     }
 }

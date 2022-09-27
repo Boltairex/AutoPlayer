@@ -28,15 +28,14 @@ namespace AutoPlayer
         private StartupService()
         {
             Instance = this;
-            LoadLastConfiguration();
         }
 
         public void LoadLastConfiguration()
         {
-            if (!File.Exists("configuration.xml"))
+            if (!File.Exists("./configuration.xml"))
                 return;
 
-            var data = XmlDataMusicReader.ReadDataFromFile("configuration.xml");
+            var data = XmlDataMusicReader.ReadDataFromFile("./configuration.xml");
             DateChecker.SetDateChecker(data);
         }
     }
