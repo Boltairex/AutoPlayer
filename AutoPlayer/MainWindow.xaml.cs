@@ -102,6 +102,7 @@ namespace AutoPlayer
             {
                 string filename = dialog.FileName;
                 var data = XmlDataMusicReader.ReadDataFromFile(filename);
+                DateChecker.SetDateChecker(data);
                 XmlDataMusicReader.CreateBaseConfigurationFrom(filename);
 /*                AudioController.Instance.DebugSetData(data[0]);*/
             }

@@ -219,12 +219,12 @@ namespace AutoPlayer
 
         public DateTime GetTodaysStart()
         {
-            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Start.Hours, Start.Minutes, DateTime.Now.Second, DateTime.Now.Millisecond);
+            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Start.Hours, Start.Minutes, 0, 0);
         }
 
         public DateTime GetTodaysEnd()
         {
-            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, End.Hours, End.Minutes, DateTime.Now.Second, DateTime.Now.Millisecond);
+            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, End.Hours, End.Minutes, 0, 0);
         }
 
         public double TimeLeftInSeconds()

@@ -37,10 +37,11 @@ namespace AutoPlayer
                     if (!Instance.source.TryReset())
                         Instance.source = new CancellationTokenSource();
 
+                    App.WriteLine("Odpalam timer!");
                     LegitAsync.NewAsync(Instance.TryRunData, data, Instance.source.Token);
-                    return Instance;
                 }
             }
+            return Instance;
         }
 
         private DateChecker(MusicData[] loadData)
@@ -52,6 +53,7 @@ namespace AutoPlayer
             data = loadData;
             source = new CancellationTokenSource();
 
+            App.WriteLine("Odpalam timer!");
             LegitAsync.NewAsync(TryRunData, data, source.Token);
         }
 
@@ -64,6 +66,7 @@ namespace AutoPlayer
                     case -1:
                         for (int x = 0; x < data.Length; x++)
                         {
+                            App.WriteLine(DateTime.Now + " : " + data[x].GetTodaysEnd());
                             if (DateTime.Now < data[x].GetTodaysEnd() && DateTime.Now >= data[x].GetTodaysStart())
                             {
                                 lock (lockThread)
