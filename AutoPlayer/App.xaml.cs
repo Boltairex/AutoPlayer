@@ -15,6 +15,7 @@ namespace AutoPlayer
     {
         static ConsoleWindow window;
         static MainWindow start;
+        static BackLogger logger = new BackLogger();
 
         App()
         {
@@ -26,6 +27,7 @@ namespace AutoPlayer
                 start.Show();
 
                 //After all services like AudioController and windows
+                logger.Log("System, Set audio controller. Request last configuration to be loaded.");
                 StartupService.SetStartupService().LoadLastConfiguration();
             }
             catch(Exception e)
@@ -42,10 +44,28 @@ namespace AutoPlayer
                 window.Show();
         }
 
+
+        public static void WriteLine(Exception ex)
+        {
+            if (ex == null)
+                return;
+
+            logger.Log(ex);
+
+            SetConsoleWindow();
+            window.Println($"[ERROR] {ex.Message}\nfrom ({ex.Source}), in ({ex.TargetSite})");
+        }
+
         public static void WriteLine(object val)
         {
             if (val == null)
                 return;
+
+            if (val is Exception ex)
+                logger.Log(ex);
+            else
+                logger.Log(val);
+            
             SetConsoleWindow();
             window.Println(val);
         } 
@@ -54,6 +74,12 @@ namespace AutoPlayer
         {
             if (val == null)
                 return;
+
+            if (val is Exception ex)
+                logger.Log(ex);
+            else
+                logger.Log(val);
+
             SetConsoleWindow();
             window.Print(val);
         }

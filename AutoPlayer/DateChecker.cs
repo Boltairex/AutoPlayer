@@ -7,7 +7,7 @@ namespace AutoPlayer
     /// <summary>
     /// Singleton object of date checking with callbacks.
     /// </summary>
-    internal class DateChecker
+    internal class DateChecker : BackLogger
     {
         public static DateChecker Instance { get; private set; }
 
@@ -19,13 +19,13 @@ namespace AutoPlayer
 
         CancellationTokenSource source;
         MusicData[] data;
-        int selected;
+        int selected = -1;
 
-        static readonly object lockThread = new object();
+        static readonly object _lock = new object();
 
         public static DateChecker SetDateChecker(MusicData[] data)
         {
-            lock (lockThread)
+            lock (_lock)
             {
                 if (Instance == null)
                     return new DateChecker(data);
@@ -66,8 +66,9 @@ namespace AutoPlayer
                         {
                             if (DateTime.Now < data[x].GetTodaysEnd() && DateTime.Now >= data[x].GetTodaysStart())
                             {
-                                lock (lockThread)
+                                lock (_lock)
                                 {
+                                    Log($"Load {data[x].Tracks.Length} tracks.");
                                     Instance.SetData(x);
                                 }
                                 break;
@@ -79,8 +80,9 @@ namespace AutoPlayer
                     default:
                         if (DateTime.Now >= data[Instance.selected].GetTodaysEnd() || DateTime.Now < data[Instance.selected].GetTodaysStart())
                         {
-                            lock (lockThread)
+                            lock (_lock)
                             {
+                                Log($"Unload data (music is expired).");
                                 Instance.SetData(-1);
                             }
                             break;

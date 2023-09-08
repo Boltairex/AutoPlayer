@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoPlayer
 {
-    internal class StartupService
+    internal class StartupService : BackLogger
     {
         public static StartupService Instance { get; private set; }
 
@@ -35,8 +35,15 @@ namespace AutoPlayer
             if (!File.Exists("./configuration.xml"))
                 return;
 
-            var data = XmlDataMusicReader.ReadDataFromFile("./configuration.xml");
-            DateChecker.SetDateChecker(data);
+            try
+            {
+                var data = XmlDataMusicReader.ReadDataFromFile("./configuration.xml");
+                DateChecker.SetDateChecker(data);
+            }
+            catch (Exception ex)
+            {
+                Handlers.FileReadHandler(ex);
+            }
         }
     }
 }

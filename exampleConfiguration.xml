@@ -1,0 +1,10 @@
+<time set="10:00-20:00" shuffle="true">
+	<playlist path="C:\Users\USER\Desktop\Folder\music1">
+	</playlist>
+	<playlist path="C:\Users\USER\Desktop\Folder\music2">
+	</playlist>
+</time>
+<time set="20:00-24:00" shuffle="true">
+	<playlist path="C:\Users\USER\Desktop\Folder\music1">
+	</playlist>
+</time>

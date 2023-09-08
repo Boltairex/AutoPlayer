@@ -10,8 +10,9 @@ namespace AutoPlayer
 {
     static class XmlDataMusicReader
     {
-        private const string conf = "./configuration.xml";
+        const string conf = "./configuration.xml";
         static string filename;
+        static BackLogger logger = new BackLogger();
 
         public static MusicData[] ReadDataFromFile(string path)
         {
@@ -20,7 +21,6 @@ namespace AutoPlayer
                 filename = Path.GetFileName(path);
                 return XmlReadData(reader.BaseStream);
             }
-            throw new Exception("Something went wrong.");
         }
 
         public static bool CreateBaseConfigurationFrom(string path)
@@ -62,6 +62,7 @@ namespace AutoPlayer
                 }
             }
 
+            logger.Log($"Music parsed, found {musics.Count} playlists.");
             return musics.ToArray();
         }
 
@@ -356,10 +357,10 @@ namespace AutoPlayer
         public Volume FromString(string volume)
         {
             volume = volume.Replace('.', ',');
-            if (float.TryParse(volume, out var vol1))
-                SetVolume(vol1);
-            else if (int.TryParse(volume, out var vol2))
+            if (int.TryParse(volume, out var vol2))
                 SetVolume(vol2);
+            else if (float.TryParse(volume, out var vol1))
+                SetVolume(vol1);
             else
                 throw new ArgumentException("Failed to parse volume.", volume);
 

@@ -17,6 +17,8 @@ namespace AutoPlayer
         BindingExpression bind1;
         BindingExpression bind2;
 
+        BackLogger logger = new BackLogger();
+
         public ObservableCollection<TrackViewData> CurrentData { get; } = new ObservableCollection<TrackViewData>();
 
         public int Volume
@@ -58,6 +60,7 @@ namespace AutoPlayer
             DateChecker.DataExpired += DateChecker_DataExpired;
 
             panel = FindName("SliderPanel") as PlayerDockPanel;
+            logger.Log("UI, Main window initialized. Events are set.");
   /*          bind1 = panel.SetBinding(TimelineMaxProperty, "TimelineMax");
             bind2 = panel.SetBinding(TimelineCurrentProperty, "TimelineCurrent");*/
         }
@@ -76,12 +79,14 @@ namespace AutoPlayer
         {
             CurrentData.Clear();
             var data = AudioController.Instance.GetInfoAboutTracks();
+            logger.Log($"UI, audio load requested with {obj.Tracks.Length} tracks.");
             foreach (var d in data)
                 CurrentData.Add(d);
         }
 
         private void AudioController_CurrentTrackChanged(TrackData obj)
         {
+            logger.Log($"UI, Next track: {obj.Name}");
             TimelineCurrent = 0;
             TimelineMax = AudioController.Instance.TotalTimeInSeconds();
             AudioController.Instance.ChangeVolume(Volume);
@@ -100,11 +105,19 @@ namespace AutoPlayer
 
             if (result == true)
             {
-                string filename = dialog.FileName;
-                var data = XmlDataMusicReader.ReadDataFromFile(filename);
-                DateChecker.SetDateChecker(data);
-                XmlDataMusicReader.CreateBaseConfigurationFrom(filename);
-/*                AudioController.Instance.DebugSetData(data[0]);*/
+                try
+                {
+                    string filename = dialog.FileName;
+                    var data = XmlDataMusicReader.ReadDataFromFile(filename);
+                    DateChecker.SetDateChecker(data);
+                    XmlDataMusicReader.CreateBaseConfigurationFrom(filename);
+                    logger.Log("UI, configuration loaded. Timer is set. Configuration copied to exe location.");
+                    /*AudioController.Instance.DebugSetData(data[0]);*/
+                }
+                catch (Exception ex)
+                {
+                    Handlers.FileReadHandler(ex);
+                }
             }
         }
 

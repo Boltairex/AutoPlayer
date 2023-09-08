@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace AutoPlayer
 {
-    public class AudioController
+    public class AudioController : BackLogger
     {
         /// <summary>
         /// Triggered when Audio receive data.
@@ -127,6 +128,8 @@ namespace AutoPlayer
             if (waveOut == null || data == null)
                 return;
 
+            Log("Next audio...");
+
             currentPosition += 1;
             if (currentPosition >= data.TracksCount)
                 currentPosition = 0;
@@ -163,6 +166,7 @@ namespace AutoPlayer
             return info;
         }
 
+        int skipCount = 0;
         void Play()
         {
             if (data == null)
@@ -187,7 +191,7 @@ namespace AutoPlayer
                 }
                 waveOut.Init(mp3Reader);
             }
-            else
+            else if (data.Tracks[currentPosition].GetFormat() == FileFormat.WAV)
             {
                 wavReader = new WaveFileReader(music);
                 if (mp3Reader != null)
@@ -197,7 +201,16 @@ namespace AutoPlayer
                 }
                 waveOut.Init(wavReader);
             }
+            else
+            {
+                SkipToNextAudio();
+                skipCount++;
+                if (skipCount == data.TracksCount)
+                    throw new ArgumentException("Nie znaleziono żadnych piosenek kompatybilnych do zagrania. Program obsługuje tylko .wav i .mp3. Nie, ręczna zmiana rozszerzenia nie podziała, zepsujesz jeszcze bardziej.");
+                return;
+            }
 
+            skipCount = 0;
             volume = data.Tracks[currentPosition].GetVolume();
             waveOut.Volume = volume;
             waveOut.Play();
@@ -214,7 +227,8 @@ namespace AutoPlayer
         {
             if (obj.Shuffle)
             {
-                TrackData[] tracks = new TrackData[obj.TracksCount];
+                List<TrackData> tracks = new List<TrackData>();
+                tracks.Clear();
                 List<int> tracksShuffle = new List<int>();
                 for (int x = 0; x < obj.TracksCount; x++)
                     tracksShuffle.Add(x);
@@ -222,10 +236,11 @@ namespace AutoPlayer
                 Random random = new Random();
 
                 int i;
-                for (int x = 0; x < tracks.Count(); x++)
+                int prevTracksShuffleCount = tracksShuffle.Count;
+                for (int x = 0; x < prevTracksShuffleCount; x++)
                 {
                     i = random.Next(0, tracksShuffle.Count);
-                    tracks[x] = obj.Tracks[tracksShuffle[i]];
+                    tracks.Add(obj.Tracks[tracksShuffle[i]]);
                     tracksShuffle.RemoveAt(i);
                 }
 

@@ -38,7 +38,7 @@ namespace AutoPlayer
 
         public void Println(object value)
         {
-            block.AppendText(counter + ": " + value.ToString() + "\n");
+            block.AppendText(value.ToString() + "\n");
             counter++;
             block.PageDown();
         }
